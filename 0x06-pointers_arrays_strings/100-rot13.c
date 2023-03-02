@@ -1,78 +1,46 @@
 #include "main.h"
 
 /**
- * rev_string - reverse array
- * @n: integer params
- * Return: 0
+ * rot13 - Encodes a string using rot13.
+ * @str: The string to be encoded.
+ *
+ * Return: A pointer to the encoded string.
  */
-
-void rev_string(char *n)
+char *rot13(char *str)
 {
-	int i = 0;
-	int j = 0;
-	char temp;
+	int indx1 = 0, indx2;
+	char alphabet[52] = {'A', 'B', 'C', 'D', 'E', 'F',
+				'G', 'H', 'I', 'J', 'K', 'L',
+				'M', 'N', 'O', 'P', 'Q', 'R',
+				'S', 'T', 'U', 'V', 'W', 'X',
+				'Y', 'Z', 'a', 'b', 'c', 'd',
+				'e', 'f', 'g', 'h', 'i', 'j',
+				'k', 'l', 'm', 'n', 'o', 'p',
+				'q', 'r', 's', 't', 'u', 'v',
+				'w', 'x', 'y', 'z'};
+	char rot13key[52] = {'N', 'O', 'P', 'Q', 'R', 'S',
+				'T', 'U', 'V', 'W', 'X', 'Y',
+				'Z', 'A', 'B', 'C', 'D', 'E',
+				'F', 'G', 'H', 'I', 'J', 'K',
+				'L', 'M', 'n', 'o', 'p', 'q',
+				'r', 's', 't', 'u', 'v', 'w',
+				'x', 'y', 'z', 'a', 'b', 'c',
+				'd', 'e', 'f', 'g', 'h', 'i',
+				'j', 'k', 'l', 'm'};
 
-	while (*(n + i) != '\0')
+	while (str[indx1])
 	{
-		i++;
+		for (indx2 = 0; indx2 < 52; indx2++)
+		{
+			if (str[indx1] == alphabet[indx2])
+			{
+				str[indx1] = rot13key[indx2];
+				break;
+			}
+		}
+
+		indx1++;
 	}
-	i--;
 
-	for (j = 0; j < i; j++, i--)
-	{
-		temp = *(n + j);
-		*(n + j) = *(n + i);
-		*(n + i) = temp;
-	}
-}
-
-/**
- * infinite_add - add 2 numbers together
- * @n1: text representation of 1st number to add
- * @n2: text representation of 2nd number to add
- * @r: pointer to buffer
- * @size_r: buffer size
- * Return: pointer to calling function
- */
-
-char *infinite_add(char *n1, char *n2, char *r, int size_r)
-{
-	int overflow = 0, i = 0, j = 0, digits = 0;
-	int val1 = 0, val2 = 0, temp_tot = 0;
-
-	while (*(n1 + i) != '\0')
-		i++;
-	while (*(n2 + j) != '\0')
-		j++;
-	i--;
-	j--;
-	if (j >= size_r || i >= size_r)
-		return (0);
-	while (j >= 0 || i >= 0 || overflow == 1)
-	{
-		if (i < 0)
-			val1 = 0;
-		else
-			val1 = *(n1 + i) - '0';
-		if (j < 0)
-			val2 = 0;
-		else
-			val2 = *(n2 + j) - '0';
-		temp_tot = val1 + val2 + overflow;
-		if (temp_tot >= 10)
-			overflow = 1;
-		else
-			overflow = 0;
-		if (digits >= (size_r - 1))
-			return (0);
-		*(r + digits) = (temp_tot % 10) + '0';
-		digits++;
-		j--;
-		i--;
-	}
-	if (digits == size_r)
-		return (0);
-	*(r + digits) = '\0';
-	rev_string(r);
-	return (r);
+	return (str);
 }
